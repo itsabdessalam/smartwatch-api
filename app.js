@@ -7,13 +7,13 @@ const routes = require("./routes");
 const database = require("./database");
 const auth = require("./middleware/auth");
 
+app.use(auth);
 app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(routes);
-app.use(auth);
 
 app.use((request, response, next) => {
 	var error = new Error("Not Found");
@@ -22,7 +22,6 @@ app.use((request, response, next) => {
 });
 
 app.use((error, request, response, next) => {
-	console.log("error", error.stack);
 	return response.status(error.status || 500).json({
 		statusCode: error.status || 500,
 		error: "No route defined",
