@@ -1,6 +1,12 @@
 const User = require("../models/User");
-const { hashPassword, createToken, decodeToken } = require("../utils/auth");
+const {
+	hashPassword,
+	verifyPassword,
+	createToken,
+	decodeToken
+} = require("../utils/auth");
 const userExists = require("../validators/userExists");
+const { normalizeUserFields } = require("../utils/normalizer");
 
 module.exports = {
 	async register(request, response, next) {
@@ -26,7 +32,7 @@ module.exports = {
 				statusCode: 201,
 				data: {
 					token: createToken(user),
-					user: user.toObject()
+					user: normalizeUserFields(user)
 				},
 				message: ""
 			});
@@ -38,5 +44,47 @@ module.exports = {
 			});
 		}
 	},
-	async login(request, response, next) {}
+	async login(request, response, next) {
+		try {
+			const { email, password } = request.body;
+			const user = await User.findOne({ email, status: "active" });
+
+			if (!user) {
+				return response.status(404).json({
+					statusCode: 404,
+					error: "Not found",
+					message: "User not found."
+				});
+			}
+
+			const isValidPassword = verifyPassword(password, user.password);
+
+			if (!isValidPassword) {
+				return response.status(401).json({
+					statusCode: 401,
+					error: "Unauthorized",
+					message: "Invalid credentials."
+				});
+			}
+
+			user.lastTimeConnectedAt = new Date().toString();
+
+			await user.save();
+
+			return response.status(200).json({
+				statusCode: 200,
+				data: {
+					token: createToken(user),
+					user: normalizeUserFields(user)
+				},
+				message: ""
+			});
+		} catch (error) {
+			return response.status(500).json({
+				statusCode: 500,
+				error: "Internal error",
+				message: error.message
+			});
+		}
+	}
 };
