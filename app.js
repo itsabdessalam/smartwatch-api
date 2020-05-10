@@ -6,6 +6,7 @@ const app = express();
 const routes = require("./routes");
 const database = require("./database");
 const auth = require("./middleware/auth");
+const port = process.env.PORT || 3000;
 
 app.use(auth);
 app.use(cors());
@@ -31,8 +32,8 @@ app.use((error, request, response, next) => {
 const start = async () => {
 	try {
 		await database.connect();
-		await app.listen(3000);
-		console.log("server listening on 3000");
+		await app.listen(port);
+		console.log(`Server listening on ${port}`);
 	} catch (error) {
 		console.error(error);
 		process.exit(1);
