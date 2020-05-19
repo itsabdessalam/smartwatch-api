@@ -5,6 +5,7 @@ module.exports = {
 	async getAllUsers(request, response, next) {
 		try {
 			let users = await User.find({})
+				.populate("orders")
 				.where("status")
 				.equals("active")
 				.exec();

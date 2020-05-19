@@ -20,7 +20,7 @@ const auth = (request, response, next) => {
 		return response.status(401).json({
 			statusCode: 401,
 			error: "Unauthorized",
-			message: "Missing authentication."
+			message: "Missing authentication"
 		});
 	}
 
@@ -29,7 +29,7 @@ const auth = (request, response, next) => {
 			return response.status(401).json({
 				statusCode: 401,
 				error: "Unauthorized",
-				message: "Failed to authenticate token."
+				message: "Failed to authenticate token"
 			});
 		}
 		next();
