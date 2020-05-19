@@ -6,7 +6,7 @@ module.exports = {
 		try {
 			const { user: id, products } = request.body;
 			const user = await User.findOne({
-				id,
+				_id: id,
 				status: "active"
 			});
 

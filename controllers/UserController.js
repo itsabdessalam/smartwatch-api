@@ -1,11 +1,13 @@
 const User = require("../models/User");
+const Order = require("../models/Order");
+
 const { normalizeUserFields } = require("../utils/normalizer");
 
 module.exports = {
 	async getAllUsers(request, response, next) {
 		try {
 			let users = await User.find({})
-				.populate("orders")
+				.populate({ path: "orders", model: Order })
 				.where("status")
 				.equals("active")
 				.exec();
