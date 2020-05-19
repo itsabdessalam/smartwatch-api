@@ -18,7 +18,7 @@ module.exports = {
 				return response.status(400).json({
 					statusCode: 400,
 					error: "Bad request",
-					message: "User already exists."
+					message: "User already exists"
 				});
 			}
 
@@ -50,10 +50,10 @@ module.exports = {
 			const user = await User.findOne({ email, status: "active" });
 
 			if (!user) {
-				return response.status(404).json({
-					statusCode: 404,
-					error: "Not found",
-					message: "User not found."
+				return response.status(401).json({
+					statusCode: 401,
+					error: "Unauthorized",
+					message: "Invalid credentials"
 				});
 			}
 
@@ -63,7 +63,7 @@ module.exports = {
 				return response.status(401).json({
 					statusCode: 401,
 					error: "Unauthorized",
-					message: "Invalid credentials."
+					message: "Invalid credentials"
 				});
 			}
 
