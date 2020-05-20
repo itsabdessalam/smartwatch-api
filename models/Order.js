@@ -20,6 +20,18 @@ module.exports = mongoose.model("Order", {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User"
 	},
+	address: {
+		street: String,
+		number: Number,
+		city: {
+			type: String,
+			required: true
+		},
+		zipCode: {
+			type: String,
+			required: true
+		}
+	},
 	lastTimeConnectedAt: {
 		type: Date,
 		default: Date.now
