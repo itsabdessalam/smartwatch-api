@@ -4,7 +4,7 @@ const Order = require("../models/Order");
 module.exports = {
 	async createOrder(request, response, next) {
 		try {
-			const { user: id, products } = request.body;
+			const { user: id, products, address } = request.body;
 			const user = await User.findOne({
 				_id: id,
 				status: "active"
@@ -19,11 +19,12 @@ module.exports = {
 			}
 
 			const order = await new Order({
-				user,
+				user: user._id,
+				address,
 				products
 			}).save();
 
-			user.orders.push(order);
+			user.orders.push(order._id);
 
 			await user.save();
 
