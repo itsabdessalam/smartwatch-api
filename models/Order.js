@@ -21,16 +21,11 @@ module.exports = mongoose.model("Order", {
 		ref: "User"
 	},
 	address: {
-		street: String,
-		number: Number,
-		city: {
-			type: String,
-			required: true
-		},
-		zipCode: {
-			type: String,
-			required: true
-		}
+		line1: String,
+		line2: String,
+		country: String,
+		city: String,
+		postalCode: String
 	},
 	lastTimeConnectedAt: {
 		type: Date,
