@@ -27,10 +27,6 @@ module.exports = mongoose.model("Order", {
 		city: String,
 		postalCode: String
 	},
-	lastTimeConnectedAt: {
-		type: Date,
-		default: Date.now
-	},
 	createdAt: {
 		type: Date,
 		default: Date.now

@@ -8,8 +8,14 @@ const database = require("./database");
 const auth = require("./middleware/auth");
 const port = process.env.PORT || 3000;
 
+app.use(
+	cors({
+		origin: "*",
+		methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+		optionsSuccessStatus: 200
+	})
+);
 app.use(auth);
-app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
