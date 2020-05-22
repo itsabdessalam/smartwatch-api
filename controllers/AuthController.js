@@ -86,5 +86,12 @@ module.exports = {
 				message: error.message
 			});
 		}
+	},
+	async ping(request, response, next) {
+		return response.status(200).json({
+			statusCode: 200,
+			data: {},
+			message: ""
+		});
 	}
 };
