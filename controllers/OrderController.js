@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Order = require('../models/Order');
+const { normalizeUserFields } = require('../utils/normalizer');
 
 module.exports = {
   async createOrder(request, response, next) {
@@ -31,7 +32,7 @@ module.exports = {
       return response.status(201).json({
         statusCode: 201,
         data: {
-          user,
+          user: normalizeUserFields(user),
         },
         message: '',
       });

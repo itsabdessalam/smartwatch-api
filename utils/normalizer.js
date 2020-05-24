@@ -18,6 +18,24 @@ module.exports = {
     return target;
   },
   normalizeOrderFields(order) {
-    return order;
+    if (!order) {
+      return {};
+    }
+
+    const target = {};
+
+    target.id = order._id;
+    target.status = order.status;
+    target.products = order.products;
+    target.total = order.products.reduce(
+      (accumulator, next) => accumulator + next.quantity * next.amount,
+      0,
+    );
+    target.user = order.user;
+    target.address = order.address;
+    target.createdAt = order.createdAt;
+    target.updatedAt = order.updatedAt;
+
+    return target;
   },
 };

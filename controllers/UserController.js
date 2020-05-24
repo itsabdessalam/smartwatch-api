@@ -1,12 +1,16 @@
 const User = require('../models/User');
 const Order = require('../models/Order');
 
-const { normalizeUserFields } = require('../utils/normalizer');
+const {
+  normalizeUserFields,
+  normalizeOrderFields,
+} = require('../utils/normalizer');
 
 module.exports = {
   async getAllUsers(request, response, next) {
     try {
       let users = await User.find({})
+        .lean()
         .where('status')
         .equals('active')
         .exec();
@@ -36,7 +40,9 @@ module.exports = {
       const user = await User.findOne({
         _id: id,
         status: 'active',
-      }).populate({ path: 'orders', model: Order });
+      })
+        .lean()
+        .populate({ path: 'orders', model: Order });
 
       return response.status(200).json({
         statusCode: 200,
@@ -57,7 +63,8 @@ module.exports = {
     try {
       const { id } = request.params;
 
-      const orders = await Order.find({ user: id });
+      let orders = await Order.find({ user: id }).lean();
+      orders = orders.map(order => normalizeOrderFields(order));
 
       return response.status(200).json({
         statusCode: 200,
