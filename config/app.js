@@ -1,6 +1,6 @@
-const defaultsTo = require("defaults-to");
+const defaultsTo = require('defaults-to');
 
-const env = require("./env");
+const env = require('./env');
 module.exports = {
-	prefix: "/api/v1"
+  prefix: '/api/v1',
 };
