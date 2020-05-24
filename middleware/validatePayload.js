@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const schemas = {
+	// Register schema validator
 	register: Joi.object().keys({
 		name: Joi.string().required(),
 		email: Joi.string()
@@ -9,6 +10,7 @@ const schemas = {
 			.min(8)
 			.required()
 	}),
+	// Login schema validator
 	login: Joi.object().keys({
 		email: Joi.string()
 			.email()
@@ -16,6 +18,41 @@ const schemas = {
 		password: Joi.string()
 			.min(8)
 			.required()
+	}),
+	// Order schema validator
+	createOrder: Joi.object().keys({
+		user: Joi.string()
+			.required()
+			.regex(/[0-9a-fA-F]{24}/),
+		products: Joi.array()
+			.required()
+			.min(1)
+			.unique()
+			.items({
+				amount: Joi.number().required(),
+				currency: Joi.string().required(),
+				quantity: Joi.number().required(),
+				sku: Joi.string().required(),
+				slug: Joi.string().required(),
+				name: Joi.string().required()
+			}),
+		address: Joi.object().keys({
+			line1: Joi.string()
+				.allow(null)
+				.allow(""),
+			line2: Joi.string()
+				.allow(null)
+				.allow(""),
+			country: Joi.string()
+				.allow(null)
+				.allow(""),
+			city: Joi.string()
+				.allow(null)
+				.allow(""),
+			postalCode: Joi.string()
+				.allow(null)
+				.allow("")
+		})
 	})
 };
 const validate = schema => {
