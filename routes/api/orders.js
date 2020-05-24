@@ -1,9 +1,6 @@
-const router = require("express").Router();
-const OrderController = require("../../controllers/OrderController");
-const validatePayload = require("../../middleware/validatePayload");
+const router = require('express').Router();
+const OrderController = require('../../controllers/OrderController');
 
-router
-	.route("/")
-	.post(validatePayload("createOrder"), OrderController.createOrder);
+router.route('/').post(OrderController.createOrder);
 
 module.exports = router;

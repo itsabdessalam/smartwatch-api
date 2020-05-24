@@ -1,10 +1,11 @@
-const router = require("express").Router();
-const UserController = require("../../controllers/UserController");
+const router = require('express').Router();
+const UserController = require('../../controllers/UserController');
 
-router.route("/").get(UserController.getAllUsers);
-router.route("/:id([0-9a-fA-F]{24})").get(UserController.getUserByID);
-router
-	.route("/:id([0-9a-fA-F]{24})/orders")
-	.get(UserController.getUserOrdersByID);
+router.route('/').get(UserController.getAllUsers);
+router.route('/:id').get(UserController.getUserByID);
+router.route('/:id/orders').get(UserController.getUserOrdersByID);
+
+// 	.put(UserController.updateUserByID)
+// 	.delete(UserController.deleteUserByID);
 
 module.exports = router;
