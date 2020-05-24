@@ -8,16 +8,6 @@ const database = require('./database');
 const rateLimit = require('express-rate-limit');
 const auth = require('./middleware/auth');
 const port = process.env.PORT || 3000;
-const whitelist = ['http://localhost:8080', 'http://smartwatch.abdessalam.dev'];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
 
 app.set('trust proxy', 1);
 app.use(
@@ -26,8 +16,14 @@ app.use(
     max: 100,
   }),
 );
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(
+  cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    optionsSuccessStatus: 200,
+  }),
+);
+
 app.use(auth);
 app.use(helmet());
 app.use(logger('dev'));
