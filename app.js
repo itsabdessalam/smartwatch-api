@@ -5,9 +5,17 @@ const cors = require("cors");
 const app = express();
 const routes = require("./routes");
 const database = require("./database");
+const rateLimit = require("express-rate-limit");
 const auth = require("./middleware/auth");
 const port = process.env.PORT || 3000;
 
+app.set("trust proxy", 1);
+app.use(
+	rateLimit({
+		windowMs: 1 * 60 * 1000, // default 1 minute
+		max: 100
+	})
+);
 app.use(
 	cors({
 		origin: "*",

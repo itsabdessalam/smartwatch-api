@@ -33,6 +33,15 @@ module.exports = {
 	async getUserByID(request, response, next) {
 		try {
 			const { id } = request.params;
+
+			if (!id) {
+				return response.status(400).json({
+					statusCode: 400,
+					error: "Bad request",
+					message: "Invalid payload"
+				});
+			}
+
 			const user = await User.findOne({
 				_id: id,
 				status: "active"
@@ -56,6 +65,14 @@ module.exports = {
 	async getUserOrdersByID(request, response, next) {
 		try {
 			const { id } = request.params;
+
+			if (!id) {
+				return response.status(400).json({
+					statusCode: 400,
+					error: "Bad request",
+					message: "Invalid payload"
+				});
+			}
 
 			const orders = await Order.find({ user: id });
 
