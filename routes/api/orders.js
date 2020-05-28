@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const OrderController = require('../../controllers/OrderController');
+const validatePayload = require('../../middleware/validatePayload');
 
-router.route('/').post(OrderController.createOrder);
+router
+  .route('/')
+  .post(validatePayload('createOrder'), OrderController.createOrder);
 
 module.exports = router;
