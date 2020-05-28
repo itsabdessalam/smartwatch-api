@@ -1,1 +1,1 @@
-# Store API
+# Smartwatch API
